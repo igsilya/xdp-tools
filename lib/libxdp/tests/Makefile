@@ -39,7 +39,9 @@ CFLAGS += -I$(HEADER_DIR)
 
 BPF_HEADERS := $(wildcard $(HEADER_DIR)/bpf/*.h) $(wildcard $(HEADER_DIR)/xdp/*.h)
 
+.PHONY: all
 all: $(USER_TARGETS) $(BPF_OBJS)
+	@:
 
 .PHONY: clean
 clean::

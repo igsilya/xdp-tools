@@ -38,7 +38,7 @@ VERSION_SCRIPT := libxdp.map
 CHECK_RULES := check_abi
 endif
 
-all: $(STATIC_LIBS) $(SHARED_LIBS) $(XDP_OBJS) $(PC_FILE) check man
+all: $(STATIC_LIBS) $(SHARED_LIBS) $(XDP_OBJS) $(PC_FILE) $(TEST_DIR) check man
 
 clean:
 	$(Q)rm -f $(STATIC_LIBS) $(STATIC_OBJS) $(SHARED_LIBS) $(SHARED_OBJS) $(XDP_OBJS) $(PC_FILE) $(MAN_OBJ) $(TEMPLATED_SOURCES)
@@ -161,6 +161,10 @@ $(MAN_PAGE): $(MAN_OBJ) $(LIBMK)
 		sed -e "1 s/DATE/$$DATE/" -e "1 s/VERSION/v$(TOOLS_VERSION)/" -e '1,5 s/^.SH "\([^"]\+\) - \([^"]\+\)"/.SH "NAME"\n\1 \\- \2\n.SH "SYNOPSIS"/' $< > $@
 
 endif
+
+.PHONY: $(TEST_DIR)
+$(TEST_DIR): $(STATIC_LIBS) $(SHARED_LIBS)
+	$(Q)$(MAKE) -C $@
 
 .PHONY: test
 test: all
